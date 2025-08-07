@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "soultale",
+	"version": "${version}",
+	"name": "SoulTale",
+	"description": "A mod that adds souls from Undertale",
+	"authors": [
+		"Tubbor"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/soultale/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.tubbor.soultale.SoulTale"
+		],
+		"fabric-datagen": [
+			"net.tubbor.soultale.SoulTaleDataGenerator"
+		],
+		"client": [
+			"net.tubbor.soultale.SoulTaleClient"
+		]
+	},
+	"mixins": [
+		"soultale.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
