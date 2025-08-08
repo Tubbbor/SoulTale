@@ -3,14 +3,10 @@ package net.tubbor.soultale;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.advancement.AdvancementEntry;
-import net.minecraft.advancement.AdvancementProgress;
-import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.tubbor.soultale.component.SoulComponent;
-import net.tubbor.soultale.component.SoulTaleComponents;
+import net.tubbor.soultale.attachment.ModAttachmentType;
+import net.tubbor.soultale.attachment.ModCustomAttachedData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,32 +24,37 @@ public class SoulTale implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+		//Registry
+
+		ModAttachmentType.init();
+
+		//Join events
 
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ServerPlayerEntity player = handler.player;
-			SoulComponent soul = SoulTaleComponents.SOUL.get(player);
 
-			PlayerAdvancementTracker tracker = player.getAdvancementTracker();
-			Identifier id = Identifier.of("soultale", "has_soul");
-			AdvancementEntry advancement = server.getAdvancementLoader().get(id);
+			ModCustomAttachedData data = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
 
-			if (advancement == null) {
-				System.out.println("Advancement could not be loaded!");
-				return;
+			if (data == null) {
+				data = ModCustomAttachedData.DEFAULT;
+				player.setAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE, data);
 			}
 
-			AdvancementProgress progress = player.getAdvancementTracker().getProgress(advancement);
+			String currentSoul = data.soul();
 
-			if(soul.getSoul() == null) {
+			if (currentSoul.equals("none")) {
 				Random random = new Random();
 				int index = random.nextInt(SOULS.length);
 				String chosenSoul = SOULS[index];
-				soul.setSoul(chosenSoul);
-				player.getAdvancementTracker().grantCriterion(advancement, "has_soul");
 
+				// Set the soul for the player
+				data = data.withSoul(chosenSoul);
+				player.setAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE, data);
+
+				// Notify the player
 				player.sendMessage(Text.literal("Starting a new world fills you with " + chosenSoul + "!"), false);
 			} else {
-				soul.setSoul(soul.getSoul());
+				player.sendMessage(Text.literal("Your current soul is: " + currentSoul), false);
 			}
 		});
 	}
