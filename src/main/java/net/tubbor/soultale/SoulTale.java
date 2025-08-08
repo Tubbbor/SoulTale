@@ -2,14 +2,17 @@ package net.tubbor.soultale;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
+import net.tubbor.soultale.command.SoulCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Random;
 
 public class SoulTale implements ModInitializer {
@@ -20,6 +23,17 @@ public class SoulTale implements ModInitializer {
 			"Determination", "Kindness", "Justice", "Bravery",
 			"Patience", "Integrity", "Perseverance", "Hate", "Fear"
 	};
+	public static final Map<String, Integer> SOUL_COLORS = Map.of(
+			"Determination", 0xF51106,
+			"Kindness", 0x26F606,
+			"Justice", 0xFFD900,
+			"Bravery", 0xFF9400,
+			"Patience", 0x06DBF6,
+			"Integrity", 0x0615F6,
+			"Perseverance", 0xA600FF,
+			"Hate", 0x151515,
+			"Fear", 0xFF0080
+	);
 
 	@Override
 	public void onInitialize() {
@@ -27,6 +41,10 @@ public class SoulTale implements ModInitializer {
 		//Registry
 
 		ModAttachmentType.init();
+
+		CommandRegistrationCallback.EVENT.register(((commandDispatcher, commandRegistryAccess, registrationEnvironment) -> {
+			SoulCommand.register(commandDispatcher);
+		}));
 
 		//Join events
 
@@ -51,8 +69,16 @@ public class SoulTale implements ModInitializer {
 				data = data.withSoul(chosenSoul);
 				player.setAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE, data);
 
+				int color = SOUL_COLORS.getOrDefault(chosenSoul, 0xFFFFFF);
+				Text coloredSoul = Text.literal(chosenSoul).withColor(color);
+
 				// Notify the player
-				player.sendMessage(Text.literal("Starting a new world fills you with " + chosenSoul + "!"), false);
+				player.sendMessage(
+						Text.literal("Starting a new world fills you with ")
+								.append(coloredSoul)
+								.append("!"),
+						false
+				);
 			} else {
 				player.sendMessage(Text.literal("Your current soul is: " + currentSoul), false);
 			}
