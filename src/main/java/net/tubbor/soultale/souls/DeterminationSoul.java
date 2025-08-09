@@ -25,7 +25,7 @@ public class DeterminationSoul {
             }
 
             String cooldownKey = "determination_death_save";
-            long cooldown =  60 * 1000; // 1dk
+            long cooldown =  15 * 60 * 1000; // 15dk
 
             if (CooldownManager.isOnCooldown(cooldownKey, player.getUuid(), cooldown)) {
                 return true;

@@ -20,6 +20,18 @@ public class CooldownManager {
         return false; // cooldown bitmiş
     }
 
+    public static long getRemainingCooldown(String key, UUID playerId, long cooldownMillis) {
+        long now = System.currentTimeMillis();
+        Map<UUID, Long> map = cooldowns.get(key);
+
+        if (map != null && map.containsKey(playerId)) {
+            long lastUse = map.get(playerId);
+            long remaining = cooldownMillis - (now - lastUse);
+            return Math.max(0, remaining);
+        }
+        return 0;
+    }
+
     public static void setCooldown(String key, UUID playerId) {
         cooldowns.computeIfAbsent(key, k -> new HashMap<>())
                 .put(playerId, System.currentTimeMillis());
