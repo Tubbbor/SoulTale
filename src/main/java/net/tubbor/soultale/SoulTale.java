@@ -70,14 +70,12 @@ public class SoulTale implements ModInitializer {
 				int index = random.nextInt(SOULS.length);
 				String chosenSoul = SOULS[index];
 
-				// Set the soul for the player
 				data = data.withSoul(chosenSoul);
 				player.setAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE, data);
 
 				int color = SOUL_COLORS.getOrDefault(chosenSoul, 0xFFFFFF);
 				Text coloredSoul = Text.literal(chosenSoul).withColor(color);
 
-				// Notify the player
 				player.sendMessage(
 						Text.literal("Starting a new world fills you with ")
 								.append(coloredSoul)
@@ -85,7 +83,7 @@ public class SoulTale implements ModInitializer {
 						false
 				);
 			} else {
-				player.sendMessage(Text.literal("Your soul is:" + currentSoul));
+				player.sendMessage(Text.literal("Your soul is: " + currentSoul));
 			}
 		});
 	}

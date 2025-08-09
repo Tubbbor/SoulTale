@@ -11,6 +11,7 @@ public class ModAttachmentType {
             builder -> builder
                     .initializer(() -> ModCustomAttachedData.DEFAULT)
                     .persistent(ModCustomAttachedData.CODEC)
+                    .copyOnDeath()
                     .syncWith(
                             ModCustomAttachedData.PACKET_CODEC,
                             AttachmentSyncPredicate.all()
