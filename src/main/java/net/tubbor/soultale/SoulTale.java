@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
 import net.tubbor.soultale.command.SoulCommand;
+import net.tubbor.soultale.souls.DeterminationSoul;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,10 @@ public class SoulTale implements ModInitializer {
 			SoulCommand.register(commandDispatcher);
 		}));
 
+		//Soul Registry
+
+		DeterminationSoul.register();
+
 		//Join events
 
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -80,7 +85,7 @@ public class SoulTale implements ModInitializer {
 						false
 				);
 			} else {
-				player.sendMessage(Text.literal("Your current soul is: " + currentSoul), false);
+				player.sendMessage(Text.literal("Your soul is:" + currentSoul));
 			}
 		});
 	}
