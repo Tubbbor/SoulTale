@@ -40,7 +40,7 @@ public class SoulCooldownHud implements HudRenderCallback {
 
         Identifier iconTexture = getTextureForSoul(soul);
         int x = drawContext.getScaledWindowWidth() / 2 - 8;
-        int y = drawContext.getScaledWindowHeight() - 65;
+        int y = drawContext.getScaledWindowHeight() - 50;
 
         RenderSystem.enableBlend();
         drawContext.drawTexture(iconTexture, x, y, 0, 0, 16, 16, 16, 16);
@@ -57,7 +57,7 @@ public class SoulCooldownHud implements HudRenderCallback {
                 String timeLeft = formatCooldownTime(remaining);
                 int textWidth = client.textRenderer.getWidth(timeLeft);
                 int textX = x + (16 - textWidth) / 2;
-                int textY = y + 18;
+                int textY = y - 10;
                 drawContext.drawTextWithShadow(client.textRenderer, timeLeft, textX, textY, 0xFFFFFF);
             }
         }
