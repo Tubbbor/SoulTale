@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
 import net.tubbor.soultale.command.SoulCommand;
+import net.tubbor.soultale.souls.BraverySoul;
 import net.tubbor.soultale.souls.DeterminationSoul;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ public class SoulTale implements ModInitializer {
 		//Soul Registry
 
 		DeterminationSoul.register();
+		BraverySoul.register();
 
 		//Join events
 
