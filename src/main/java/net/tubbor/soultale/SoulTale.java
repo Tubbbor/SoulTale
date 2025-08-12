@@ -12,6 +12,7 @@ import net.tubbor.soultale.command.SoulCommand;
 import net.tubbor.soultale.souls.BraverySoul;
 import net.tubbor.soultale.souls.DeterminationSoul;
 import net.tubbor.soultale.souls.JusticeSoul;
+import net.tubbor.soultale.souls.PatienceSoul;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +55,7 @@ public class SoulTale implements ModInitializer {
 		DeterminationSoul.register();
 		BraverySoul.register();
 		JusticeSoul.register();
+		PatienceSoul.register();
 
 		//Join events
 
