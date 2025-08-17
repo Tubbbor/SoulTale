@@ -9,10 +9,7 @@ import net.minecraft.text.Text;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
 import net.tubbor.soultale.command.SoulCommand;
-import net.tubbor.soultale.souls.BraverySoul;
-import net.tubbor.soultale.souls.DeterminationSoul;
-import net.tubbor.soultale.souls.JusticeSoul;
-import net.tubbor.soultale.souls.PatienceSoul;
+import net.tubbor.soultale.souls.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +53,7 @@ public class SoulTale implements ModInitializer {
 		BraverySoul.register();
 		JusticeSoul.register();
 		PatienceSoul.register();
+        IntegritySoul.register();
 
 		//Join events
 

@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.sound.SoundCategory;
 import net.tubbor.soultale.SoulTale;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
@@ -111,7 +111,7 @@ public class PatienceSoul {
                                     player.setHealth(Math.max(newHealth, 0.5f));
 
                                     // Play hurt sound
-                                    player.playSoundToPlayer(net.minecraft.sound.SoundEvents.ENTITY_PLAYER_HURT, net.minecraft.sound.SoundCategory.PLAYERS, 1.0f, 1.0f);
+                                    player.playSoundToPlayer(net.minecraft.sound.SoundEvents.ENTITY_PLAYER_HURT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                 }
                             }
 

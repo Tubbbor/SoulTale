@@ -5,6 +5,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
@@ -42,7 +43,7 @@ public class DeterminationSoul {
                     0.1
             );
 
-            player.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0F, 0.8F);
+            player.playSoundToPlayer(SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS,1.0F, 0.8F);
 
             CooldownManager.setCooldown(cooldownKey, player.getUuid());
 
