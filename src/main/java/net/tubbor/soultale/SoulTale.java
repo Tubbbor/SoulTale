@@ -56,6 +56,8 @@ public class SoulTale implements ModInitializer {
         IntegritySoul.register();
 		HateSoul.register();
 		PerseveranceSoul.register();
+		FearSoul.register();
+		KindnessSoul.register();
 
 		//Join events
 

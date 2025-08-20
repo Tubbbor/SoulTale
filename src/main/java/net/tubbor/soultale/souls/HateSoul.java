@@ -99,7 +99,7 @@ public class HateSoul {
             }
         });
 
-        killer.heal(2f); // 1 kalp yenile
+        killer.heal(3f); // 1.5 kalp yenile
     }
 
     public static int getStacks(ServerPlayerEntity player) {
