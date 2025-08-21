@@ -22,7 +22,7 @@ public class HateSoul {
     private static final Identifier HATE_MODIFIER_ID = Identifier.of("soultale", "hate_bonus");
 
     public static void register() {
-        // Tick - süreleri kontrol et
+        // Tick
         ServerTickEvents.END_SERVER_TICK.register((MinecraftServer server) -> {
             long tick = server.getOverworld().getTime();
             Iterator<Map.Entry<UUID, HateData>> it = HATE_STACKS.entrySet().iterator();
@@ -35,7 +35,7 @@ public class HateSoul {
                 }
             }
 
-            // Oyuncuların attack modifier'ını güncelle
+            //Update player attributes
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 ModCustomAttachedData soulData = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (soulData == null || !"Hate".equals(soulData.soul())) continue;
@@ -57,7 +57,7 @@ public class HateSoul {
             }
         });
 
-        // Player öldüğünde stack resetle
+        //Reset stacks on death
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (entity instanceof ServerPlayerEntity victim) {
                 clearStacks(victim); // Ölen oyuncunun Hate stackleri sıfırlanır
@@ -72,7 +72,7 @@ public class HateSoul {
             }
         });
 
-        // Canlıya vurulduğunda Wither ekle
+        //Apply wither effect on low health
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, amount, taken, blocked) -> {
             if (!(source.getAttacker() instanceof ServerPlayerEntity player)) return;
 
@@ -87,7 +87,7 @@ public class HateSoul {
         });
     }
 
-    // Kill eventinden çağırılacak
+    // Kill event
     public static void onPlayerKill(ServerPlayerEntity killer) {
         long currentTick = killer.getWorld().getTime();
         HATE_STACKS.compute(killer.getUuid(), (uuid, old) -> {
@@ -99,7 +99,7 @@ public class HateSoul {
             }
         });
 
-        killer.heal(3f); // 1.5 kalp yenile
+        killer.heal(3f); // Regen 3 health on kill
     }
 
     public static int getStacks(ServerPlayerEntity player) {

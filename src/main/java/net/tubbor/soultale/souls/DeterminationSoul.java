@@ -25,6 +25,7 @@ public class DeterminationSoul {
                 return true;
             }
 
+            // Cooldown
             String cooldownKey = "determination_death_save";
             long cooldown =  15 * 60 * 1000; // 15dk
 
@@ -32,9 +33,12 @@ public class DeterminationSoul {
                 return true;
             }
 
+            // Effect
             player.setHealth(player.getMaxHealth());
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 4));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 300, 1));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 1));
 
+            // Particles and sound
             player.getServerWorld().spawnParticles(
                     ParticleTypes.HEART,
                     player.getX(), player.getBodyY(1.0), player.getZ(),

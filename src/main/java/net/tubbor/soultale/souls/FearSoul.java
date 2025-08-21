@@ -13,15 +13,15 @@ public class FearSoul {
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, amount, taken, blocked) -> {
             if (!(source.getAttacker() instanceof ServerPlayerEntity player)) return;
 
-            // Ruh kontrolü
+            // Soul check
             ModCustomAttachedData data = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
             if (data == null || !"Fear".equals(data.soul())) return;
 
             if (entity instanceof LivingEntity target) {
-                // Slowness her durumda uygulanır
+                //Apply slowness
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 60, 0));
 
-                // Yarı canın altındaysa Weakness da uygula
+                //Apply weakness if player is below half hp
                 if (player.getHealth() <= player.getMaxHealth() / 2f) {
                     target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 60, 0));
                 }

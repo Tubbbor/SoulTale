@@ -90,8 +90,6 @@ public class SoulTale implements ModInitializer {
 								.append("!"),
 						false
 				);
-			} else {
-				player.sendMessage(Text.literal("Your soul is: " + currentSoul));
 			}
 		});
 	}

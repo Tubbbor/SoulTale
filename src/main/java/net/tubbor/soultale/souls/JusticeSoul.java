@@ -18,11 +18,11 @@ public class JusticeSoul {
     private static final Set<UUID> REENTRANCY_GUARD = Collections.synchronizedSet(new HashSet<>());
 
     public static void register() {
-        // Hasar olayları
+        // Damage event
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
             LivingEntity attacker = source.getAttacker() instanceof LivingEntity le ? le : null;
 
-            // 1) Revenge mark verme
+            // Apply revenge mark
             if (entity instanceof ServerPlayerEntity damagedPlayer) {
                 ModCustomAttachedData data = damagedPlayer.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (data != null && "Justice".equals(data.soul()) && attacker != null) {
@@ -30,7 +30,7 @@ public class JusticeSoul {
                 }
             }
 
-            // 2) Bonus hasar uygulama
+            // Extra damage
             if (attacker instanceof ServerPlayerEntity attackingPlayer) {
                 ModCustomAttachedData data = attackingPlayer.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (data != null && "Justice".equals(data.soul())) {
@@ -55,7 +55,7 @@ public class JusticeSoul {
             }
         });
 
-        // Revenge mark particle gösterimi
+        // Particle
         ServerTickEvents.END_SERVER_TICK.register((MinecraftServer server) -> {
             long now = System.currentTimeMillis();
             Iterator<Map.Entry<UUID, Long>> it = REVENGE_MARKS.entrySet().iterator();
@@ -63,7 +63,7 @@ public class JusticeSoul {
             while (it.hasNext()) {
                 Map.Entry<UUID, Long> entry = it.next();
                 if (now > entry.getValue()) {
-                    it.remove(); // süresi bitmiş
+                    it.remove();
                     continue;
                 }
 
@@ -71,7 +71,7 @@ public class JusticeSoul {
                     LivingEntity target = (LivingEntity) world.getEntity(entry.getKey());
                     if (target != null) {
                         double x = target.getX();
-                        double y = target.getY() + target.getHeight() + 0.5; // başın biraz üstü
+                        double y = target.getY() + target.getHeight() + 0.5; // Little above the entity
                         double z = target.getZ();
                         world.spawnParticles(ParticleTypes.ANGRY_VILLAGER, x, y, z, 1, 0, 0, 0, 0);
                     }

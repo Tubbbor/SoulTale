@@ -11,7 +11,6 @@ import net.tubbor.soultale.attachment.ModCustomAttachedData;
 
 public class BraverySoul {
 
-    // Tek seferlik tanımlanan modifier'lar
     private static final EntityAttributeModifier BRAVERY_LOW =
             new EntityAttributeModifier(
                     Identifier.of("soultale", "bravery_low"),
@@ -30,7 +29,7 @@ public class BraverySoul {
         ServerTickEvents.END_SERVER_TICK.register((MinecraftServer server) -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
 
-                // Oyuncunun ruhu Bravery değilse atla
+                // Soul check
                 ModCustomAttachedData data = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (data == null || !"Bravery".equals(data.soul())) continue;
 
@@ -39,11 +38,10 @@ public class BraverySoul {
 
                 double health = player.getHealth();
 
-                // Önce tüm Bravery modifier'larını kaldır
                 attr.removeModifier(BRAVERY_LOW.id());
                 attr.removeModifier(BRAVERY_MID.id());
 
-                // Can seviyesine göre buff ekle
+                // Health check
                 if (health <= 4) {
                     attr.addTemporaryModifier(BRAVERY_LOW);   // x2 damage
                 } else if (health <= 10) {

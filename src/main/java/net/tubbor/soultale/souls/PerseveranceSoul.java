@@ -12,7 +12,7 @@ import net.tubbor.soultale.attachment.ModCustomAttachedData;
 import java.util.*;
 
 public class PerseveranceSoul {
-    // Track modified effects to avoid re-processing
+    // Track modified effects to avoid reprocessing
     private static final Map<UUID, Set<String>> processedEffects = new HashMap<>();
 
     public static void register() {

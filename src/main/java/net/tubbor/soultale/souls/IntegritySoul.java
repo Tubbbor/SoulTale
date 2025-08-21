@@ -10,7 +10,7 @@ import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
 
 public class IntegritySoul {
-    // Her sağlık eşiği için farklı modifier
+
     private static final EntityAttributeModifier INTEGRITY_LOW =
             new EntityAttributeModifier(
                     Identifier.of("soultale", "integrity_low"),
@@ -28,25 +28,24 @@ public class IntegritySoul {
     public static void register() {
         ServerTickEvents.END_SERVER_TICK.register((MinecraftServer server) -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                // Ruh kontrolü
+                // Soul check
                 ModCustomAttachedData data = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (data == null || !"Integrity".equals(data.soul())) continue;
 
                 var attr = player.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
                 if (attr == null) continue;
 
-                // Önce modifier’ları temizle
                 attr.removeModifier(INTEGRITY_LOW.id());
                 attr.removeModifier(INTEGRITY_MID.id());
 
                 double health = player.getHealth();
 
+                // Health check
                 if (health <= 4) {
                     attr.addTemporaryModifier(INTEGRITY_LOW);   // +4 armor
                 } else if (health <= 10) {
                     attr.addTemporaryModifier(INTEGRITY_MID);   // +2 armor
                 }
-                // 10’dan yüksekse → hiçbir ek armor yok
             }
         });
     }

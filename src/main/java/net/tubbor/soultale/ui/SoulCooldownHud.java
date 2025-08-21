@@ -45,7 +45,7 @@ public class SoulCooldownHud implements HudRenderCallback {
         RenderSystem.enableBlend();
         drawContext.drawTexture(iconTexture, x, y, 0, 0, 16, 16, 16, 16);
 
-        // Sadece Determination için cooldown göster
+        // Only show for determination
         if (soul.equals("Determination")) {
             long remaining = CooldownManager.getRemainingCooldown(
                     "determination_death_save",
@@ -74,7 +74,7 @@ public class SoulCooldownHud implements HudRenderCallback {
             case "Perseverance" -> PERSEVERANCE_ICON;
             case "Hate" -> HATE_ICON;
             case "Fear" -> FEAR_ICON;
-            default -> Identifier.of("soultale", "textures/gui/none.png"); // Varsayılan ikon
+            default -> Identifier.of("soultale", "textures/gui/none.png");
 
         };
     }

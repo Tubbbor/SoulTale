@@ -25,7 +25,7 @@ public class PatienceSoul {
             // Prevent recursive damage calls
             if (PROCESSING_DAMAGE.contains(player.getUuid())) return true;
 
-            // Check if player has Patience soul
+            // Soul check
             ModCustomAttachedData data = player.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
             if (data == null || !"Patience".equals(data.soul())) return true;
 
