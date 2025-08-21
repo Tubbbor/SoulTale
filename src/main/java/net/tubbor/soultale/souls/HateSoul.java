@@ -9,7 +9,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.tubbor.soultale.attachment.ModAttachmentType;
 import net.tubbor.soultale.attachment.ModCustomAttachedData;
@@ -18,7 +17,7 @@ import java.util.*;
 
 public class HateSoul {
     private static final Map<UUID, HateData> HATE_STACKS = new HashMap<>();
-    private static final int STACK_DURATION = 20 * 60 * 10; // 10dk tick
+    private static final int STACK_DURATION = 20 * 60 * 10; // 10m
     private static final Identifier HATE_MODIFIER_ID = Identifier.of("soultale", "hate_bonus");
 
     public static void register() {
@@ -46,7 +45,7 @@ public class HateSoul {
 
                 attr.removeModifier(HATE_MODIFIER_ID);
                 if (stacks > 0) {
-                    double bonus = 0.05 * stacks; // %5 stack başına
+                    double bonus = 0.05 * stacks; // %5 per stack
                     EntityAttributeModifier mod = new EntityAttributeModifier(
                             HATE_MODIFIER_ID,
                             bonus,
@@ -60,14 +59,16 @@ public class HateSoul {
         //Reset stacks on death
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (entity instanceof ServerPlayerEntity victim) {
-                clearStacks(victim); // Ölen oyuncunun Hate stackleri sıfırlanır
+                clearStacks(victim);
             }
 
-            if (source.getAttacker() instanceof ServerPlayerEntity killer) {
+            // Trigger on player kill
+            if (source.getAttacker() instanceof ServerPlayerEntity killer &&
+                    entity instanceof ServerPlayerEntity) {
+
                 ModCustomAttachedData soulData = killer.getAttached(ModAttachmentType.SOUL_ATTACHMENT_TYPE);
                 if (soulData != null && "Hate".equals(soulData.soul())) {
-                    onPlayerKill(killer); // Stack ekle ve heal ver
-                    killer.sendMessage(Text.literal("You fed your Hate..."), false);
+                    onPlayerKill(killer);
                 }
             }
         });
